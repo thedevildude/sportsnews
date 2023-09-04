@@ -54,8 +54,8 @@ export const signup = async (name: string, email: string, password: string) => {
   return await request("users/", "POST", { name, email, password });
 };
 
-export const me = async () => {
-  return await request("users/me/", "GET");
+export const matches = async () => {
+  return await request("matches/", "GET");
 };
 
 
