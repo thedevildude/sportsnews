@@ -25,6 +25,7 @@ const SigninForm: React.FC = () => {
         throw new Error(response.errors);
       }
       localStorage.setItem("authToken", response.auth_token);
+      localStorage.setItem("userData", response.user);
       navigate("/");
     } catch (error: any) {
       setErrorArray(error.message);

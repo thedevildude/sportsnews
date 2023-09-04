@@ -1,12 +1,13 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const userNavigation = [
-  localStorage.getItem("token")
+  localStorage.getItem("authToken")
     ? { name: "Sign out", href: "/signout" }
     : { name: "Sign in", href: "/signin" },
-  localStorage.getItem("token")
+  localStorage.getItem("authToken")
     ? { name: "Preferences", href: "/preferences" }
     : { name: "Sign up", href: "/signup" },
 ];
@@ -21,9 +22,9 @@ const Appbar = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
-              <div className="flex-shrink-0">
+              <Link className="flex-shrink-0" to={"/"}>
                 <h1 className="text-2xl font-semibold text-gray-600">Sports Center</h1>
-              </div>
+              </Link>
             </div>
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
