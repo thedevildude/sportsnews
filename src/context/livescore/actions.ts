@@ -1,4 +1,4 @@
-import { request } from "../../utils/api";
+import { matches } from "../../utils/api";
 import { MatchListActionTypes, MatchListDispatch } from "./types";
 
 export const fetchMatches = async (
@@ -6,7 +6,7 @@ export const fetchMatches = async (
 ) => {
   try {
     dispatch({ type: MatchListActionTypes.FETCH_MATCHES_REQUEST });
-    const response = await request("matches/", "GET");
+    const response = await matches();
     if (response.errors) {
       throw new Error(response.errors);
     }
