@@ -8,7 +8,7 @@ export interface ArticleListState {
 }
 
 export interface Article {
-  id: string;
+  id: number;
   title: string;
   thumbnail: string;
   sport: Sport;
