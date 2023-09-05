@@ -1,5 +1,6 @@
 import React from "react";
 import Matches from "../../components/livescore";
+import Article from "../../components/articles";
 
 const Home = () => {
   return (
@@ -7,8 +8,8 @@ const Home = () => {
       <section>
         <Matches />
       </section>
-      <section>
-        Trending News
+      <section className="grid grid-cols-2">
+        <Article />
       </section>
     </main>
   )

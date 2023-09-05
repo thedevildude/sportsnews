@@ -10,7 +10,7 @@ const MatchList = () => {
   }, [matchListDispatch]);
 
   return (
-    <div className="overflow-x-auto whitespace-no-wrap">
+    <div className="flex mt-5 overflow-x-auto whitespace-no-wrap">
       <MatchListItems />
     </div>
   );
