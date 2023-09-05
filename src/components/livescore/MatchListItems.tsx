@@ -1,14 +1,18 @@
 import React from "react";
-import { useMatchListState } from "../../context/livescore/context";
+import {
+  useMatchListDispatch,
+  useMatchListState,
+} from "../../context/livescore/context";
 import { Match, MatchListState } from "../../context/livescore/types";
 import { format } from "date-fns";
+import { fetchUpdatedMatchScore } from "../../context/livescore/actions";
 
 const MatchListItems = () => {
   const matchListState: MatchListState = useMatchListState();
+  const matchListDispatch = useMatchListDispatch();
 
-  const handleUpdate = (matchId: number) => {
-    // Implement your update logic here for the specific matchId
-    console.log(`Update match with id ${matchId}`);
+  const handleUpdate = (matchId: string) => {
+    fetchUpdatedMatchScore(matchListDispatch, matchId);
   };
 
   if (matchListState.isLoading) {
@@ -45,20 +49,33 @@ const MatchListItems = () => {
           <p className="text-gray-600 text-sm">{match.location}</p>
           <p className="text-xs mt-1">
             {match.isRunning
-              ? `Started at ${format(
+              ? `Ends at ${format(
                   new Date(match.endsAt),
                   "yyyy-MM-dd HH:mm:ss"
                 )}`
-              : `Starts at ${format(
+              : `Ended at ${format(
                   new Date(match.endsAt),
                   "yyyy-MM-dd HH:mm:ss"
                 )}`}
           </p>
           <div className="mt-2">
             {match.teams.map((team, index) => (
-              <p key={index} className="text-blue-500 text-xs">
-                {team.name}
-              </p>
+              <div
+                key={index}
+                className="grid grid-cols-2 justify-center text-xs"
+              >
+                <p>{team.name}</p>
+                <p>
+                  {match?.score &&
+                    Object.keys(match.score).map((key) =>
+                      key === team.name
+                        ? match.score
+                          ? match.score[key]
+                          : undefined
+                        : null
+                    )}
+                </p>
+              </div>
             ))}
           </div>
           <button

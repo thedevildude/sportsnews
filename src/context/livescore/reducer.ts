@@ -31,20 +31,23 @@ export const matchListReducer: Reducer<MatchListState, MatchListAction> = (
         isError: true,
         errorMessage: action.payload,
       };
-    case MatchListActionTypes.UPDATE_MATCH_REQUEST:
+    case MatchListActionTypes.UPDATE_MATCH_SCORE_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case MatchListActionTypes.UPDATE_MATCH_SUCCESS:
+    case MatchListActionTypes.UPDATE_MATCH_SCORE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        matches: state.matches.map((match) =>
-          match.id === action.payload.id ? action.payload : match
-        ),
+        matches: state.matches.map((match) => {
+          if (match.id === action.payload.id) {
+            return action.payload;
+          }
+          return match;
+        }),
       };
-    case MatchListActionTypes.UPDATE_MATCH_FAILURE:
+    case MatchListActionTypes.UPDATE_MATCH_SCORE_FAILURE:
       return {
         ...state,
         isLoading: false,
