@@ -1,11 +1,14 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
 import { MatchListProvider } from "./context/livescore/context";
+import { ArticleListProvider } from "./context/articles/context";
 
 const App = () => {
   return (
     <MatchListProvider>
-      <RouterProvider router={router} />
+      <ArticleListProvider>
+        <RouterProvider router={router} />
+      </ArticleListProvider>
     </MatchListProvider>
   );
 };

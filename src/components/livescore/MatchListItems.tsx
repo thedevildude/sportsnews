@@ -1,7 +1,7 @@
 import React from "react";
 import { useMatchListState } from "../../context/livescore/context";
 import { Match, MatchListState } from "../../context/livescore/types";
-import { format } from "date-fns"; // Import the format function
+import { format } from "date-fns";
 
 const MatchListItems = () => {
   const matchListState: MatchListState = useMatchListState();
