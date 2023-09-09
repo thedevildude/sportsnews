@@ -74,6 +74,14 @@ export const sports = async () => {
   return await request("sports/", "GET");
 }
 
+export const preferences = async () => {
+  return await request("user/preferences/", "GET");
+}
+
+export const updatePreferences = async ( sports: string[]) => {
+  return await request("user/preferences/", "PATCH", { sports });
+}
+
 
 
 

@@ -5,6 +5,7 @@ import Signin from "../pages/signin";
 import Signup from "../pages/signup";
 import Signout from "../pages/signout";
 import Article from "../pages/articles";
+import Preferences from "../pages/preferences";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        children: [{ path: "/articles/:id", element: <Article /> }],
+        children: [
+          { path: "/articles/:id", element: <Article /> },
+          { path: "/preferences", element: <Preferences /> },
+        ],
       },
       { path: "/signin", element: <Signin /> },
       { path: "/signup", element: <Signup /> },
