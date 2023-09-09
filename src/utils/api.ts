@@ -68,21 +68,18 @@ export const articles = async () => {
 
 export const article = async (id: string) => {
   return await request(`articles/${id}`, "GET");
-}
+};
 
 export const sports = async () => {
   return await request("sports/", "GET");
-}
+};
 
 export const preferences = async () => {
   return await request("user/preferences/", "GET");
-}
+};
 
-export const updatePreferences = async ( sports: string[]) => {
-  return await request("user/preferences/", "PATCH", { sports });
-}
-
-
-
-
-
+export const addPreferences = async (sports: string[]) => {
+  return await request("user/preferences/", "PATCH", {
+    preferences: { sports },
+  });
+};

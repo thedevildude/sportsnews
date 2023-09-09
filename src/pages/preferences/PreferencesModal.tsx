@@ -3,11 +3,16 @@ import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sport } from "../../context/articles/types";
 import { sports } from "../../utils/api";
-import { usePreferencesState } from "../../context/preferences/context";
+import {
+  usePreferencesDispatch,
+  usePreferencesState,
+} from "../../context/preferences/context";
 import { PreferencesState } from "../../context/preferences/types";
+import { updatePreferences } from "../../context/preferences/actions";
 
 const PreferencesModal = () => {
   const preferencesState: PreferencesState = usePreferencesState();
+  const preferencesDispatch = usePreferencesDispatch();
   const [selectedPreferences, setSelectedPreferences] = useState<string[]>(
     preferencesState.preferences.sports || []
   );
@@ -29,7 +34,10 @@ const PreferencesModal = () => {
   }, []);
 
   useEffect(() => {
-    if (preferencesState.isLoading == false && preferencesState.preferences.sports) {
+    if (
+      preferencesState.isLoading == false &&
+      preferencesState.preferences.sports
+    ) {
       setSelectedPreferences(preferencesState.preferences.sports);
     }
   }, [preferencesState.isLoading, preferencesState.preferences.sports]);
@@ -45,10 +53,25 @@ const PreferencesModal = () => {
     });
   };
 
-  const preferencesSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault;
-    console.log(e);
+  const submitPreferences = () => {
+    updatePreferences(preferencesDispatch, selectedPreferences);
   };
+
+  if (preferencesState.isLoading) {
+    return (
+      <div className="text-center">
+        <span>Loading...</span>
+      </div>
+    );
+  }
+
+  if (preferencesState.isError) {
+    return (
+      <div className="text-center">
+        <span>{preferencesState.errorMessage}</span>
+      </div>
+    );
+  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -89,9 +112,8 @@ const PreferencesModal = () => {
                 Preferences
               </h1>
               <div className="mt-4">
-                <form
+                <div
                   className="flex flex-col space-y-4"
-                  onSubmit={(e) => preferencesSubmitHandler(e)}
                 >
                   {sportsData.map((sport) => (
                     <div key={sport.id} className="flex items-center">
@@ -113,11 +135,11 @@ const PreferencesModal = () => {
                   ))}
                   <button
                     className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-500"
-                    type="submit"
+                    onClick={submitPreferences}
                   >
-                    Save
+                    Save Preferences
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           </Transition.Child>
