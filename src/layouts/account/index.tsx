@@ -1,14 +1,8 @@
 import * as React from "react";
 import { Outlet } from "react-router-dom";
 import Appbar from "./Appbar";
-import { usePreferencesDispatch } from "../../context/preferences/context";
-import { fetchPreferences } from "../../context/preferences/actions";
 
 const AccountLayout = () => {
-  const preferencesDispatch = usePreferencesDispatch();
-  React.useEffect(() => {
-    fetchPreferences(preferencesDispatch);
-  }, [preferencesDispatch]);
   
   return (
     <>
