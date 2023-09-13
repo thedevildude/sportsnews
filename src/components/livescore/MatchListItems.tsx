@@ -6,9 +6,11 @@ import {
 import { Match, MatchListState } from "../../context/livescore/types";
 import { format } from "date-fns";
 import { fetchUpdatedMatchScore } from "../../context/livescore/actions";
+import { usePreferencesState } from "../../context/preferences/context";
 
 const MatchListItems = () => {
   const matchListState: MatchListState = useMatchListState();
+  const preferencesState = usePreferencesState();
   const matchListDispatch = useMatchListDispatch();
 
   const handleUpdate = (matchId: string) => {
@@ -31,9 +33,14 @@ const MatchListItems = () => {
     );
   }
 
+  const filteredMatches = preferencesState.preferences.sports.length <= 0 ? 
+    matchListState.matches : matchListState.matches.filter((match) =>
+      preferencesState.preferences.sports.includes(match.sportName)
+    );
+
   return (
     <div className="flex">
-      {matchListState.matches.map((match: Match) => (
+      {filteredMatches.map((match: Match) => (
         <div
           key={match.id}
           className="w-64 p-4 mb-4 mx-2 border rounded-lg shadow-md hover:shadow-lg transition duration-300 relative"
@@ -80,7 +87,8 @@ const MatchListItems = () => {
           </div>
           <button
             onClick={() => handleUpdate(match.id)}
-            className="bg-blue-500 text-white px-2 py-1 rounded mt-2 text-xs hover:bg-blue-600"
+            className="bg-blue-500 text-white px-2 py-1 rounded mt-2 text-xs hover:bg-blue-600 disabled:bg-gray-500"
+            disabled = {match.isRunning === false}
           >
             Update
           </button>
