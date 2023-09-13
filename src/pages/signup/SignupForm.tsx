@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signup } from "../../utils/api";
+import { useAuthenticationDispatch, useAuthenticationState } from "../../context/authentication/context";
+import { signupAuth } from "../../context/authentication/actions";
 
 type Inputs = {
   name: string;
@@ -11,26 +12,18 @@ type Inputs = {
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
+  const authenticationState = useAuthenticationState();
+  const authenticationDispatch = useAuthenticationDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const [errorArray, setErrorArray] = useState("");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { name, email, password } = data;
-    try {
-      const response = await signup(name, email, password);
-      if (response.errors) {
-        throw new Error(response.errors);
-      }
-      localStorage.setItem("authToken", response.auth_token);
-      localStorage.setItem("userData", response.user);
-      navigate("/");
-    } catch (error: any) {
-      setErrorArray(error.message);
-    }
+    await signupAuth(authenticationDispatch, name, email, password);
+    authenticationState.isAuthenticated && navigate("/");
   };
 
   return (
@@ -79,7 +72,7 @@ const SignupForm: React.FC = () => {
       >
         Sign In
       </button>
-      {errorArray && <p className="text-red-500 mt-2">{errorArray}</p>}
+      {authenticationState.isError && <p className="text-red-500 mt-2">{authenticationState.errorMessage}</p>}
     </form>
   );
 };

@@ -41,12 +41,12 @@ export default function ArticleListItems() {
     );
   }
 
-  const filteredSports = authenticationState.isAuthenticated && preferencesState.preferences.sports.length > 0
+  const filteredSports = authenticationState.isAuthenticated && preferencesState.preferences?.sports?.length > 0
     ? sportsData.filter((sport) => preferencesState.preferences.sports.includes(sport.name))
     : sportsData;
 
   // Filter articles based on selected sports or show all articles
-  const filteredArticles = authenticationState.isAuthenticated && preferencesState.preferences.sports.length > 0
+  const filteredArticles = authenticationState.isAuthenticated && preferencesState.preferences?.sports?.length > 0
     ? articleListState.articles.filter((article) => preferencesState.preferences.sports.includes(article.sport.name))
     : articleListState.articles;
 

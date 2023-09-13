@@ -14,6 +14,10 @@ export enum AuthenticationActionTypes {
   LOGOUT_REQUEST = "LOGOUT_REQUEST",
   LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
   LOGOUT_FAILURE = "LOGOUT_FAILURE",
+
+  SIGNUP_REQUEST = "SIGNUP_REQUEST",
+  SIGNUP_SUCCESS = "SIGNUP_SUCCESS",
+  SIGNUP_FAILURE = "SIGNUP_FAILURE",
 }
 
 export type AuthenticationAction =
@@ -22,6 +26,9 @@ export type AuthenticationAction =
   | { type: AuthenticationActionTypes.LOGIN_FAILURE; payload: string }
   | { type: AuthenticationActionTypes.LOGOUT_REQUEST }
   | { type: AuthenticationActionTypes.LOGOUT_SUCCESS }
-  | { type: AuthenticationActionTypes.LOGOUT_FAILURE; payload: string };
+  | { type: AuthenticationActionTypes.LOGOUT_FAILURE; payload: string }
+  | { type: AuthenticationActionTypes.SIGNUP_REQUEST }
+  | { type: AuthenticationActionTypes.SIGNUP_SUCCESS; payload: string }
+  | { type: AuthenticationActionTypes.SIGNUP_FAILURE; payload: string };
 
 export type AuthenticationDispatch = React.Dispatch<AuthenticationAction>;

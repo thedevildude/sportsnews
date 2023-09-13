@@ -56,6 +56,27 @@ export const authenticationReducer: Reducer<AuthenticationState, AuthenticationA
         isError: true,
         errorMessage: action.payload,
       };
+    case AuthenticationActionTypes.SIGNUP_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case AuthenticationActionTypes.SIGNUP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: true,
+        authToken: action.payload,
+        isError: false,
+        errorMessage: "",
+      };
+    case AuthenticationActionTypes.SIGNUP_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        errorMessage: action.payload,
+      };
     default:
       return state;
   }

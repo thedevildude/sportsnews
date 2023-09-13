@@ -35,9 +35,13 @@ const MatchListItems = () => {
     );
   }
 
-  const filteredMatches = authenticationState.isAuthenticated ? matchListState.matches.filter((match) => {
-    return preferencesState.preferences.sports.includes(match.sportName);
-  } ) : matchListState.matches;
+  const filteredMatches =
+    authenticationState.isAuthenticated &&
+    preferencesState.preferences?.sports?.length > 0
+      ? matchListState.matches.filter((match) => {
+          return preferencesState.preferences.sports.includes(match.sportName);
+        })
+      : matchListState.matches;
 
   return (
     <div className="flex">
@@ -89,7 +93,7 @@ const MatchListItems = () => {
           <button
             onClick={() => handleUpdate(match.id)}
             className="bg-blue-500 text-white px-2 py-1 rounded mt-2 text-xs hover:bg-blue-600 disabled:bg-gray-500"
-            disabled = {match.isRunning === false}
+            disabled={match.isRunning === false}
           >
             Update
           </button>
