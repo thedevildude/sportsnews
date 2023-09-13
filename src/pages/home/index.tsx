@@ -4,12 +4,14 @@ import Article from "../../components/articles";
 import { Outlet } from "react-router-dom";
 import { usePreferencesDispatch } from "../../context/preferences/context";
 import { fetchPreferences } from "../../context/preferences/actions";
+import { useAuthenticationState } from "../../context/authentication/context";
 
 const Home = () => {
   const preferencesDispatch = usePreferencesDispatch();
+  const authenticationState = useAuthenticationState();
   React.useEffect(() => {
-    localStorage.getItem("authToken") && fetchPreferences(preferencesDispatch);
-  }, [preferencesDispatch]);
+    authenticationState.isAuthenticated && fetchPreferences(preferencesDispatch);
+  }, [authenticationState.isAuthenticated, preferencesDispatch]);
   
   return (
     <main className="flex flex-col">

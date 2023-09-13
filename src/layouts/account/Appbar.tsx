@@ -2,20 +2,23 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-
-const userNavigation = [
-  localStorage.getItem("authToken")
-    ? { name: "Sign out", href: "/signout" }
-    : { name: "Sign in", href: "/signin" },
-  localStorage.getItem("authToken")
-    ? { name: "Preferences", href: "/preferences" }
-    : { name: "Sign up", href: "/signup" },
-];
+import { logout } from "../../context/authentication/actions";
+import { useAuthenticationDispatch, useAuthenticationState } from "../../context/authentication/context";
 
 const classNames = (...classes: string[]): string =>
   classes.filter(Boolean).join(" ");
 
 const Appbar = () => {
+  const authenticationDispatch = useAuthenticationDispatch();
+  const authenticationState = useAuthenticationState();
+  const userNavigation = [
+    authenticationState.isAuthenticated
+      ? { name: "Sign out", onClick: () => logout(authenticationDispatch) }
+      : { name: "Sign in", href: "/signin" },
+    authenticationState.isAuthenticated
+      ? { name: "Preferences", href: "/preferences" }
+      : { name: "Sign up", href: "/signup" },
+  ];
   return (
     <>
       <Disclosure as="nav" className="border-b border-slate-200">
@@ -48,11 +51,12 @@ const Appbar = () => {
                         <Menu.Item key={item.name}>
                           {({ active }) => (
                             <Link
-                              to={item.href}
+                              to={item.href? item.href : ""}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
+                              onClick={item.onClick ? item.onClick : () => {}}
                             >
                               {item.name}
                             </Link>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signin } from "../../utils/api";
+import { login } from "../../context/authentication/actions";
+import { useAuthenticationDispatch, useAuthenticationState } from "../../context/authentication/context";
 
 type Inputs = {
   email: string;
@@ -9,6 +10,9 @@ type Inputs = {
 };
 
 const SigninForm: React.FC = () => {
+  const authenticationState = useAuthenticationState();
+  const authenticationDispatch = useAuthenticationDispatch();
+
   const navigate = useNavigate();
   const {
     register,
@@ -20,15 +24,15 @@ const SigninForm: React.FC = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { email, password } = data;
     try {
-      const response = await signin(email, password);
-      if (response.errors) {
-        throw new Error(response.errors);
+      await login(authenticationDispatch, email, password);
+      if (authenticationState.isError) {
+        throw authenticationState.errorMessage;
       }
-      localStorage.setItem("authToken", response.auth_token);
-      localStorage.setItem("userData", response.user);
-      navigate("/");
+      if (authenticationState.isAuthenticated|| localStorage.getItem("authToken") !== undefined) {
+        navigate("/");
+      }
     } catch (error: any) {
-      setErrorArray(error.message);
+      setErrorArray(authenticationState.errorMessage);
     }
   };
 

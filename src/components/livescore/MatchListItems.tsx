@@ -7,9 +7,11 @@ import { Match, MatchListState } from "../../context/livescore/types";
 import { format } from "date-fns";
 import { fetchUpdatedMatchScore } from "../../context/livescore/actions";
 import { usePreferencesState } from "../../context/preferences/context";
+import { useAuthenticationState } from "../../context/authentication/context";
 
 const MatchListItems = () => {
   const matchListState: MatchListState = useMatchListState();
+  const authenticationState = useAuthenticationState();
   const preferencesState = usePreferencesState();
   const matchListDispatch = useMatchListDispatch();
 
@@ -33,10 +35,9 @@ const MatchListItems = () => {
     );
   }
 
-  const filteredMatches = preferencesState.preferences.sports.length <= 0 ? 
-    matchListState.matches : matchListState.matches.filter((match) =>
-      preferencesState.preferences.sports.includes(match.sportName)
-    );
+  const filteredMatches = authenticationState.isAuthenticated ? matchListState.matches.filter((match) => {
+    return preferencesState.preferences.sports.includes(match.sportName);
+  } ) : matchListState.matches;
 
   return (
     <div className="flex">

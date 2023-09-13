@@ -3,16 +3,19 @@ import router from "./routes";
 import { MatchListProvider } from "./context/livescore/context";
 import { ArticleListProvider } from "./context/articles/context";
 import { PreferencesProvider } from "./context/preferences/context";
+import { AuthenticationProvider } from "./context/authentication/context";
 
 const App = () => {
   return (
-    <PreferencesProvider>
-      <MatchListProvider>
-        <ArticleListProvider>
-          <RouterProvider router={router} />
-        </ArticleListProvider>
-      </MatchListProvider>
-    </PreferencesProvider>
+    <AuthenticationProvider>
+      <PreferencesProvider>
+        <MatchListProvider>
+          <ArticleListProvider>
+            <RouterProvider router={router} />
+          </ArticleListProvider>
+        </MatchListProvider>
+      </PreferencesProvider>
+    </AuthenticationProvider>
   );
 };
 

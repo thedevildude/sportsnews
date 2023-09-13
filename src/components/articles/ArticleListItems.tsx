@@ -5,6 +5,7 @@ import { ArticleListState, Sport } from "../../context/articles/types";
 import { useArticleListState } from "../../context/articles/context";
 import ArticleListCard from "./ArticleListCard";
 import { usePreferencesState } from "../../context/preferences/context";
+import { useAuthenticationState } from "../../context/authentication/context";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -12,6 +13,7 @@ function classNames(...classes: string[]) {
 
 export default function ArticleListItems() {
   const articleListState: ArticleListState = useArticleListState();
+  const authenticationState = useAuthenticationState();
   const [sportsData, setSportsData] = useState<Sport[]>([]);
   const preferencesState = usePreferencesState();
 
@@ -39,13 +41,14 @@ export default function ArticleListItems() {
     );
   }
 
+  const filteredSports = authenticationState.isAuthenticated && preferencesState.preferences.sports.length > 0
+    ? sportsData.filter((sport) => preferencesState.preferences.sports.includes(sport.name))
+    : sportsData;
+
   // Filter articles based on selected sports or show all articles
-  const filteredArticles =
-    preferencesState.preferences.sports.length > 0
-      ? articleListState.articles.filter((article) =>
-          preferencesState.preferences.sports.includes(article.sport.name)
-        )
-      : articleListState.articles;
+  const filteredArticles = authenticationState.isAuthenticated && preferencesState.preferences.sports.length > 0
+    ? articleListState.articles.filter((article) => preferencesState.preferences.sports.includes(article.sport.name))
+    : articleListState.articles;
 
   return (
     <div className="w-full">
@@ -65,39 +68,24 @@ export default function ArticleListItems() {
           >
             Your News
           </Tab>
-          {preferencesState.preferences.sports.length <= 0
-            ? sportsData.map((sports) => (
-                <Tab
-                  key={sports.id}
-                  className={({ selected }) =>
-                    classNames(
-                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
-                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                      selected
-                        ? "bg-white shadow"
-                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-                    )
-                  }
-                >
-                  {sports.name}
-                </Tab>
-              ))
-            : preferencesState.preferences.sports.map((sport) => (
-                <Tab
-                  key={sportsData.find((sports) => sports.name === sport)?.id}
-                  className={({ selected }) =>
-                    classNames(
-                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
-                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                      selected
-                        ? "bg-white shadow"
-                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-                    )
-                  }
-                >
-                  {sport}
-                </Tab>
-              ))}
+          {
+            filteredSports.map((sport) => (
+              <Tab
+                key={sport.id}
+                className={({ selected }) =>
+                  classNames(
+                    "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                    selected
+                      ? "bg-white shadow"
+                      : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                  )
+                }
+              >
+                {sport.name}
+              </Tab>
+            ))
+          }
         </Tab.List>
         <Tab.Panels className="mt-2">
           {/* Tab panel for "Your News */}
@@ -108,31 +96,17 @@ export default function ArticleListItems() {
               ))}
             </div>
           </Tab.Panel>
-          {preferencesState.preferences.sports.length <= 0
-            ? sportsData.map((sports) => (
-                <Tab.Panel key={sports.id}>
-                  <div className="flex flex-col gap-2">
-                    {filteredArticles
-                      .filter((article) => article.sport.name === sports.name)
-                      .map((article) => (
-                        <ArticleListCard key={article.id} {...article} />
-                      ))}
-                  </div>
-                </Tab.Panel>
-              ))
-            : preferencesState.preferences.sports.map((sport) => (
-                <Tab.Panel
-                  key={sportsData.find((sports) => sports.name === sport)?.id}
-                >
-                  <div className="flex flex-col gap-2">
-                    {filteredArticles
-                      .filter((article) => article.sport.name === sport)
-                      .map((article) => (
-                        <ArticleListCard key={article.id} {...article} />
-                      ))}
-                  </div>
-                </Tab.Panel>
-              ))}
+          {
+            filteredSports.map((sport) => (
+              <Tab.Panel key={sport.id}>
+                <div className="flex flex-col gap-2">
+                  {filteredArticles.filter((article) => article.sport.name === sport.name).map((article) => (
+                    <ArticleListCard key={article.id} {...article} />
+                  ))}
+                </div>
+              </Tab.Panel>
+            ))
+          }
         </Tab.Panels>
       </Tab.Group>
     </div>
