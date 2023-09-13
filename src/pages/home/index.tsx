@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import { usePreferencesDispatch } from "../../context/preferences/context";
 import { fetchPreferences } from "../../context/preferences/actions";
 import { useAuthenticationState } from "../../context/authentication/context";
+import Favourites from "../../components/favourites";
 
 const Home = () => {
   const preferencesDispatch = usePreferencesDispatch();
@@ -18,8 +19,9 @@ const Home = () => {
       <section>
         <Matches />
       </section>
-      <section className="">
+      <section className="grid grid-cols-4 space-x-4">
         <Article />
+        <Favourites />
       </section>
       <Outlet />
     </main>
