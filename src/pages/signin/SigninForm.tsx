@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { login } from "../../context/authentication/actions";
@@ -19,22 +19,18 @@ const SigninForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const [errorArray, setErrorArray] = useState("");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { email, password } = data;
-    try {
-      await login(authenticationDispatch, email, password);
-      if (authenticationState.isError) {
-        throw authenticationState.errorMessage;
-      }
-      if (authenticationState.isAuthenticated|| localStorage.getItem("authToken") !== undefined) {
-        navigate("/");
-      }
-    } catch (error: any) {
-      setErrorArray(authenticationState.errorMessage);
+    await login(authenticationDispatch, email, password);
+    if (authenticationState.isAuthenticated) {
+      navigate("/");
     }
   };
+
+  if (authenticationState.isAuthenticated) {
+    navigate("/");
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,7 +66,7 @@ const SigninForm: React.FC = () => {
       >
         Sign In
       </button>
-      {errorArray && <p className="text-red-500 mt-2">{errorArray}</p>}
+      {authenticationState.isError && <p className="text-red-500 mt-2">{authenticationState.errorMessage}</p>}
     </form>
   );
 };
