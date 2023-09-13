@@ -8,6 +8,13 @@ export type PreferencesState = {
 
 export type Preferences = {
   sports: string[];
+  teams: string[];
+};
+
+export type Team = {
+  id: string;
+  name: string;
+  plays: string;
 };
 
 export enum PreferencesActionTypes {

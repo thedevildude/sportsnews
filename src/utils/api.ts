@@ -78,8 +78,12 @@ export const preferences = async () => {
   return await request("user/preferences/", "GET");
 };
 
-export const addPreferences = async (sports: string[]) => {
+export const addPreferences = async (sports: string[], teams: string[]) => {
   return await request("user/preferences/", "PATCH", {
-    preferences: { sports },
+    preferences: { sports, teams },
   });
 };
+
+export const teams = async () => {
+  return await request("teams/", "GET");
+}

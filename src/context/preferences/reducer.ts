@@ -4,6 +4,7 @@ import { PreferencesAction, PreferencesState } from "./types";
 export const initialState: PreferencesState = {
   preferences: {
     sports: [],
+    teams: [],
   },
   isLoading: false,
   isError: false,

@@ -20,10 +20,10 @@ export const fetchPreferences = async (dispatch: PreferencesDispatch) => {
   }
 }
 
-export const updatePreferences = async (dispatch: PreferencesDispatch, sports: string[]) => {
+export const updatePreferences = async (dispatch: PreferencesDispatch, sports: string[], teams: string[]) => {
   try {
     dispatch({ type: PreferencesActionTypes.UPDATE_PREFERENCES_REQUEST });
-    const response = await addPreferences(sports);
+    const response = await addPreferences(sports, teams);
     if (response.errors) {
       throw new Error(response.errors);
     }
