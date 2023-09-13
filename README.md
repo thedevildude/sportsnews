@@ -1,27 +1,48 @@
-# React + TypeScript + Vite
+# Sports Center
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an sports center applcation built using React.js and TypeScript and TailwindCSS over Vite.
+It is built for partial fulfillment of WD301 course. The application fetches data from a swagger API and provides sports data to its users. The application caters both signed and guest users. Signed in users have the privilege to set the preferences of their choice and view sport match results and read sport news accordingly. The application has used React's context API for state management
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Demo
 
-## Expanding the ESLint configuration
+https://storied-mandazi-f457ad.netlify.app/
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Screenshots
 
-- Configure the top-level `parserOptions` property like this:
+![App Screenshot](https://i.imgur.com/VS5gS3k.png)  
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/thedevildude/sportsnews.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start locally
+
+```bash
+  npm run dev
+```
+
+
+## Deployment
+
+To deploy this project run.
+
+```bash
+  npm install
+  npm run build
+```
+
+## Authors
+
+- [@Devdeep](https://www.github.com/thedevildude)
+
