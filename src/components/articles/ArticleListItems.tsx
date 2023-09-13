@@ -41,13 +41,28 @@ export default function ArticleListItems() {
     );
   }
 
-  const filteredSports = authenticationState.isAuthenticated && preferencesState.preferences?.sports?.length > 0
-    ? sportsData.filter((sport) => preferencesState.preferences.sports.includes(sport.name))
-    : sportsData;
+  // Filter sports based on selected sports or show all sports
+  const filteredSports =
+    authenticationState.isAuthenticated &&
+    preferencesState.preferences?.sports?.length > 0
+      ? sportsData.filter((sport) =>
+          preferencesState.preferences.sports.includes(sport.name)
+        )
+      : sportsData;
 
-  // Filter articles based on selected sports or show all articles
-  const filteredArticles = authenticationState.isAuthenticated && preferencesState.preferences?.sports?.length > 0
-    ? articleListState.articles.filter((article) => preferencesState.preferences.sports.includes(article.sport.name))
+  // Filter articles based on selected sports and teams or show all articles
+  const filteredArticles = authenticationState.isAuthenticated
+    ? articleListState.articles.filter((article) => {
+        const sportMatch = preferencesState.preferences.sports.includes(
+          article.sport.name
+        );
+        const teamMatch =
+          preferencesState.preferences.teams.length === 0 ||
+          preferencesState.preferences.teams.some((team) =>
+            article.teams.some((articleTeam) => articleTeam.name === team)
+          );
+        return sportMatch || teamMatch;
+      })
     : articleListState.articles;
 
   return (
@@ -68,24 +83,22 @@ export default function ArticleListItems() {
           >
             Your News
           </Tab>
-          {
-            filteredSports.map((sport) => (
-              <Tab
-                key={sport.id}
-                className={({ selected }) =>
-                  classNames(
-                    "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
-                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                    selected
-                      ? "bg-white shadow"
-                      : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-                  )
-                }
-              >
-                {sport.name}
-              </Tab>
-            ))
-          }
+          {filteredSports.map((sport) => (
+            <Tab
+              key={sport.id}
+              className={({ selected }) =>
+                classNames(
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                  "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                  selected
+                    ? "bg-white shadow"
+                    : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                )
+              }
+            >
+              {sport.name}
+            </Tab>
+          ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
           {/* Tab panel for "Your News */}
@@ -96,17 +109,17 @@ export default function ArticleListItems() {
               ))}
             </div>
           </Tab.Panel>
-          {
-            filteredSports.map((sport) => (
-              <Tab.Panel key={sport.id}>
-                <div className="flex flex-col gap-2">
-                  {filteredArticles.filter((article) => article.sport.name === sport.name).map((article) => (
+          {filteredSports.map((sport) => (
+            <Tab.Panel key={sport.id}>
+              <div className="flex flex-col gap-2">
+                {filteredArticles
+                  .filter((article) => article.sport.name === sport.name)
+                  .map((article) => (
                     <ArticleListCard key={article.id} {...article} />
                   ))}
-                </div>
-              </Tab.Panel>
-            ))
-          }
+              </div>
+            </Tab.Panel>
+          ))}
         </Tab.Panels>
       </Tab.Group>
     </div>
