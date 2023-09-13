@@ -51,7 +51,7 @@ export default function ArticleListItems() {
       : sportsData;
 
   // Filter articles based on selected sports and teams or show all articles
-  const filteredArticles = authenticationState.isAuthenticated
+  const filteredArticles = authenticationState.isAuthenticated && preferencesState.preferences?.sports?.length > 0 && preferencesState.preferences?.teams?.length > 0
     ? articleListState.articles.filter((article) => {
         const sportMatch = preferencesState.preferences.sports.includes(
           article.sport.name

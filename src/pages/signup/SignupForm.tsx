@@ -70,7 +70,7 @@ const SignupForm: React.FC = () => {
         type="submit"
         className="w-full bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-gray mt-4"
       >
-        Sign In
+        Sign Up
       </button>
       {authenticationState.isError && <p className="text-red-500 mt-2">{authenticationState.errorMessage}</p>}
     </form>
