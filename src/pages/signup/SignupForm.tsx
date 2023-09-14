@@ -23,9 +23,10 @@ const SignupForm: React.FC = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { name, email, password } = data;
     await signupAuth(authenticationDispatch, name, email, password);
-    authenticationState.isAuthenticated && navigate("/");
   };
-
+  
+  authenticationState.isAuthenticated && navigate("/");
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
