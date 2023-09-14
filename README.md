@@ -8,6 +8,10 @@ It is built for partial fulfillment of WD301 course. The application fetches dat
 
 https://storied-mandazi-f457ad.netlify.app/
 
+## Video Demo
+
+https://www.youtube.com/playlist?list=PLccQ9YxWYId0lQVMdN_epKV-Wod6KGBDP
+
 ## Screenshots
 
 ![App Screenshot](https://i.imgur.com/VS5gS3k.png)  
