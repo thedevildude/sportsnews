@@ -58,6 +58,10 @@ export const matches = async () => {
   return await request("matches/", "GET");
 };
 
+export const updatePassword = async (current_password: string, new_password: string ) => {
+  return await request("user/password", "PATCH", { current_password, new_password });
+}
+
 export const match = async (id: string) => {
   return await request(`matches/${id}`, "GET");
 };
