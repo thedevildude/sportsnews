@@ -6,6 +6,7 @@ import Signup from "../pages/signup";
 import Signout from "../pages/signout";
 import Article from "../pages/articles";
 import Preferences from "../pages/preferences";
+import Match from "../pages/match";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
         element: <Home />,
         children: [
           { path: "/articles/:id", element: <Article /> },
+          { path: "/matches/:id", element: <Match />},
           { path: "/preferences", element: <Preferences /> },
         ],
       },
